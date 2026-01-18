@@ -1,0 +1,163 @@
+// ==============================
+// Prisma Generator
+// ==============================
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==============================
+// Datasource
+// ==============================
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==============================
+// ENUMS
+// ==============================
+enum UserRole {
+  ADMIN
+  STAFF
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+enum VillaStatus {
+  AVAILABLE
+  FULL
+}
+
+// ==============================
+// MODELS
+// ==============================
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  firstName   String
+  lastName    String
+  phone       String?
+  dateOfBirth DateTime?
+  role        UserRole @default(STAFF)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  bookings    Booking[]
+  expenses    Expense[]
+  tasks       Task[]
+  staffVillas Villa[]  @relation("StaffVillas")
+
+  @@map("users")
+}
+
+model Villa {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  location    String
+  owner       String
+  status      VillaStatus
+  price       Float
+  images      String[]
+  facilities  String[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  rooms       Room[]
+  bookings    Booking[]
+  tasks       Task[]
+  staff       User[]      @relation("StaffVillas")
+
+  @@map("villas")
+}
+
+model Room {
+  id       String @id @default(cuid())
+  name     String
+  capacity Int
+  price    Float
+
+  // Relations
+  villaId  String
+  villa    Villa   @relation(fields: [villaId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@map("rooms")
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  guestName     String
+  guestEmail    String
+  guestPhone    String
+  checkInDate   DateTime
+  checkOutDate  DateTime
+  totalPrice    Float
+  bookingStatus BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+
+  villaId       String
+  villa         Villa         @relation(fields: [villaId], references: [id])
+
+  roomId        String
+  room          Room          @relation(fields: [roomId], references: [id])
+
+  @@map("bookings")
+}
+
+model Expense {
+  id         String   @id @default(cuid())
+  name       String
+  amount     Float
+  invoiceUrl String?
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@map("expenses")
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  dueDate     DateTime
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  villaId     String
+  villa       Villa    @relation(fields: [villaId], references: [id])
+
+  @@map("tasks")
+}
