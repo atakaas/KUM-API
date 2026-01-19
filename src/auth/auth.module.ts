@@ -8,7 +8,7 @@ import type { StringValue } from 'ms';
 
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { JwtStrategy } from './jwt/jwt.strategy';
+import { JwtStrategy } from '../auth/jwt/jwt.strategy';
 
 @Module({
   imports: [

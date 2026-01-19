@@ -1,12 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DashboardService } from './dashboard.service';
+import { PrismaService } from '../database/prisma.service';
 
 describe('DashboardService', () => {
   let service: DashboardService;
 
+  const mockPrismaService = {
+    booking: {
+      count: jest.fn(),
+      findMany: jest.fn(),
+    },
+    villa: {
+      count: jest.fn(),
+    },
+    user: {
+      count: jest.fn(),
+    },
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DashboardService],
+      providers: [
+        DashboardService,
+        {
+          provide: PrismaService,
+          useValue: mockPrismaService,
+        },
+      ],
     }).compile();
 
     service = module.get<DashboardService>(DashboardService);
