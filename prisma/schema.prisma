@@ -1,21 +1,19 @@
-// ==============================
-// Prisma Generator
-// ==============================
+// prisma/schema.prisma
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  
+}
+
 generator client {
   provider = "prisma-client-js"
 }
 
 // ==============================
-// Datasource
-// ==============================
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-// ==============================
 // ENUMS
 // ==============================
+
 enum UserRole {
   ADMIN
   STAFF

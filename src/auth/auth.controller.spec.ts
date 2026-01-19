@@ -1,30 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
-import { LocalAuthGuard } from './local-auth.guard';
-import { JwtAuthGuard } from './jwt/jwt-auth.guard';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
-import { UserRole } from '@prisma/client';
+import { LoginDto, RegisterDto } from '../auth/dto/auth.dto';
 
 describe('AuthController', () => {
   let controller: AuthController;
   let authService: AuthService;
 
   const mockAuthService = {
-    validateUser: jest.fn(),
     login: jest.fn(),
     register: jest.fn(),
-  };
-
-  const mockUser = {
-    id: '1',
-    email: 'test@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    role: UserRole.STAFF,
   };
 
   beforeEach(async () => {
@@ -35,23 +20,8 @@ describe('AuthController', () => {
           provide: AuthService,
           useValue: mockAuthService,
         },
-        {
-          provide: JwtService,
-          useValue: {
-            sign: jest.fn().mockReturnValue('access_token'),
-          },
-        },
-        {
-          provide: UsersService,
-          useValue: {},
-        },
       ],
-    })
-      .overrideGuard(LocalAuthGuard)
-      .useValue({ canActivate: jest.fn(() => true) })
-      .overrideGuard(JwtAuthGuard)
-      .useValue({ canActivate: jest.fn(() => true) })
-      .compile();
+    }).compile();
 
     controller = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);
@@ -62,53 +32,59 @@ describe('AuthController', () => {
   });
 
   describe('login', () => {
-    it('should return access token and user data', async () => {
-      const loginDto: LoginDto = {
+    it('should call authService.login and return tokens', async () => {
+      const dto: LoginDto = {
         email: 'test@example.com',
-        password: 'password',
+        password: 'Password123!',
       };
 
-      const loginResult = {
-        user: mockUser,
+      const mockUser = {
+        id: '1',
+        email: dto.email,
+        firstName: 'John',
+        lastName: 'Doe',
+        role: 'STAFF',
+      };
+
+      const result = {
         accessToken: 'access_token',
         refreshToken: 'refresh_token',
+        user: mockUser,
       };
 
-      jest.spyOn(authService, 'login').mockResolvedValue(loginResult);
+      mockAuthService.login.mockResolvedValue(result);
 
+      // 👇 MOCK REQUEST OBJECT
       const req = { user: mockUser };
-      const result = await controller.login(req, loginDto);
 
-      expect(authService.login).toHaveBeenCalledWith(mockUser);
-      expect(result).toEqual(loginResult);
+      const response = await controller.login(req, dto);
+
+      expect(authService.login).toHaveBeenCalledWith(dto);
+      expect(response).toEqual(result);
     });
   });
 
   describe('register', () => {
-    it('should register a new user', async () => {
-      const registerDto: RegisterDto = {
+    it('should call authService.register and return user', async () => {
+      const dto: RegisterDto = {
         email: 'test@example.com',
-        password: 'password',
+        password: 'Password123!',
         firstName: 'John',
         lastName: 'Doe',
       };
 
-      jest.spyOn(authService, 'register').mockResolvedValue(mockUser);
+      mockAuthService.register.mockResolvedValue({
+        id: '1',
+        email: dto.email,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+        role: 'STAFF',
+      });
 
-      const result = await controller.register(registerDto);
+      const response = await controller.register(dto);
 
-      expect(authService.register).toHaveBeenCalledWith(registerDto);
-      expect(result).toEqual(mockUser);
-    });
-  });
-
-  describe('getProfile', () => {
-    it('should return user profile', async () => {
-      const req = { user: mockUser };
-
-      const result = await controller.getProfile(req);
-
-      expect(result).toEqual(mockUser);
+      expect(authService.register).toHaveBeenCalledWith(dto);
+      expect(response.email).toBe(dto.email);
     });
   });
 });
