@@ -125,22 +125,10 @@ Swagger Documentation
 
 ---
 
-🗂️ Backend Project Structure
-src/
-├── auth/                # Authentication & JWT
-├── users/               # User management
-├── villas/              # Villa management
-├── rooms/               # Room management
-├── bookings/            # Booking system
-├── expenses/            # Expense tracking
-├── tasks/               # Task management
-├── common/
-│   ├── decorators/      # Custom decorators
-│   ├── guards/          # Auth & role guards
-│   └── interceptors/
-├── prisma/              # Prisma schema & service
-├── config/              # Application configuration
-└── main.ts              # Application entry point
+## 🗂️ Backend Project Structure
+
+<img width="568" height="475" alt="image" src="https://github.com/user-attachments/assets/cd257287-2fb3-4bab-bc53-f076a49ce317" />
+
 
 ---
 
