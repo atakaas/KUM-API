@@ -110,7 +110,7 @@ npm run start:dev
 
 Access Swagger UI at:
 
-http://localhost:3000/api
+[(http://localhost:3000/api/v1/docs)]
 
 ---
 
@@ -118,10 +118,7 @@ http://localhost:3000/api
 https://kummanagement.netlify.app/
 
 Backend API
--
-
-Swagger Documentation
--
+https://kum-api.up.railway.app/
 
 ---
 
