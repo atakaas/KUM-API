@@ -83,30 +83,40 @@ The system is designed with a modular, scalable architecture and follows industr
 git clone https://github.com/atakashf/kum-api.git
 cd kum-api
 
-2️⃣ Install Dependencies
+### 2️⃣ Install Dependencies
 npm install
 
-3️⃣ Environment Configuration
+### 3️⃣ Environment Configuration
 
 Create a .env file in the root directory:
 
-DATABASE_URL=postgresql://user:password@host:5432/postgres
+ NODE_ENV=development
+ PORT=3000
+ API_PREFIX=api/v1
 
-JWT_SECRET=your-secret-key
-JWT_ACCESS_EXPIRATION=15m
-JWT_REFRESH_EXPIRATION=7d
+DATABASE_URL="postgresql://postgres:CCLzDYlwtIIzoKtLNONPclrvtJOZqJTt@crossover.proxy.rlwy.net:24308/railway"
 
-BCRYPT_SALT_ROUNDS=12
-PORT=3000
+JWT
+ JWT_SECRET=0a0984626232257964b7c00baa25b426
+ JWT_ACCESS_EXPIRATION=15m
+ JWT_REFRESH_EXPIRATION=7d
 
-4️⃣ Prisma Setup
+Security
+ BCRYPT_SALT_ROUNDS=12
+ THROTTLE_TTL=60000
+ THROTTLE_LIMIT=100
+
+CORS
+ CORS_ORIGIN=http://localhost:3000/
+
+### 4️⃣ Prisma Setup
 npx prisma generate
 npx prisma migrate dev
 
-5️⃣ Run Development Server
+### 5️⃣ Run Development Server
 npm run start:dev
 
-6️⃣ API Documentation
+### 6️⃣ API Documentation
 
 Access Swagger UI at:
 
@@ -115,10 +125,10 @@ Access Swagger UI at:
 ---
 
 ## Frontend
-https://kummanagement.netlify.app/
+[https://kummanagement.netlify.app/]
 
-Backend API
-https://kum-api.up.railway.app/
+## Backend API
+[https://kum-api.up.railway.app/]
 
 ---
 
@@ -130,6 +140,11 @@ https://kum-api.up.railway.app/
 ---
 
 ## Preview
+<img width="1919" height="889" alt="Screenshot 2026-01-19 212735" src="https://github.com/user-attachments/assets/326e9174-f296-4ec6-ab05-379e7fef6989" />
+
+<img width="1919" height="890" alt="Screenshot 2026-01-19 212753" src="https://github.com/user-attachments/assets/8d52651e-51a3-444f-9796-4cb69a69322c" />
+
+<img width="1919" height="890" alt="Screenshot 2026-01-19 212805" src="https://github.com/user-attachments/assets/c7acabb8-fd1e-4620-834c-d9c71ad68a9e" />
 
 ---
 
