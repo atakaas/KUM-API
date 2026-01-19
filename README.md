@@ -114,9 +114,7 @@ http://localhost:3000/api
 
 ---
 
-🔗 Deployment Links
-
-Frontend (kum-crack)
+## Frontend
 https://kummanagement.netlify.app/
 
 Backend API
@@ -146,11 +144,12 @@ src/
 
 ---
 
-Preview
+## Preview
 
 ---
 
-ERD
+## ERD
+
 <img width="450" height="275" alt="image" src="https://github.com/user-attachments/assets/ddc76c4f-1b78-414f-9803-6d06d960b512" />
 
 
