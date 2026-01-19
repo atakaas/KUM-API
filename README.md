@@ -1,98 +1,169 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🏡 KUM Villa Management – Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+KUM Villa Management Backend is a RESTful API built to support villa management operations under KUM.  
+It handles authentication, role-based access control, villa and room management, booking operations, and staff daily operations, fully integrated with the **kum-crack** frontend application.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📖 Project Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This backend acts as the core business logic and data layer for the KUM Villa Management system. It enables:
 
-## Project setup
+- **Admins** to manage villas, rooms, bookings, users, and a centralized booking calendar across all villas
+- **Staff** to monitor assigned villas, booking schedules, operational tasks, and expenses
+- Secure authentication using JWT and role-based authorization (RBAC)
+- Integration readiness for direct booking and third-party booking platforms
 
-```bash
-$ npm install
-```
+The system is designed with a modular, scalable architecture and follows industry best practices, making it ready for production deployment.
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## ✨ Features
 
-# watch mode
-$ npm run start:dev
+### 🔐 Authentication & Authorization
+- User registration and login (Admin & Staff)
+- JWT-based authentication
+- Role-Based Access Control (RBAC)
+- Protected routes using Guards and Decorators
 
-# production mode
-$ npm run start:prod
-```
+### 🏡 Villa Management (Admin)
+- Create, read, update, and delete villas
+- Manage villa details (location, facilities, pricing, status)
+- Assign staff to villas
 
-## Run tests
+### 🛏️ Room Management (Admin)
+- Add and manage rooms per villa
+- Configure room capacity and pricing
 
-```bash
-# unit tests
-$ npm run test
+### 📅 Booking Management (Admin & Staff)
+- Create direct bookings
+- View booking schedules in calendar format
+- Prevent double bookings (date overlap validation)
+- Track booking and payment status
 
-# e2e tests
-$ npm run test:e2e
+### 👷 Staff Operational Dashboard
+- View assigned villas
+- Monitor upcoming check-ins and check-outs
+- Manage daily operational tasks
 
-# test coverage
-$ npm run test:cov
-```
+### 💰 Expense Tracking (Staff)
+- Record operational expenses
+- Upload invoice or receipt references
+- Real-time financial tracking
 
-## Deployment
+### 📊 Dashboard
+- Admin dashboard: overall villa and booking overview
+- Staff dashboard: daily operational schedules and tasks
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 🧰 Tech Stack Used
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+### Backend
+- **Node.js** v18+
+- **NestJS** v10
+- **TypeScript** v5
+- **Prisma ORM** v6
+- **PostgreSQL** v15+ (Supabase)
+- **JWT** (Authentication)
+- **Swagger (OpenAPI)** – API Documentation
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Supporting Libraries
+- class-validator & class-transformer
+- bcryptjs (password hashing)
+- Passport.js
+- dotenv
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## ⚙️ Installation & Usage
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 1️⃣ Clone the Repository
 
-## Support
+git clone https://github.com/atakashf/kum-api.git
+cd kum-api
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2️⃣ Install Dependencies
+npm install
 
-## Stay in touch
+3️⃣ Environment Configuration
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Create a .env file in the root directory:
 
-## License
+DATABASE_URL=postgresql://user:password@host:5432/postgres
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+JWT_SECRET=your-secret-key
+JWT_ACCESS_EXPIRATION=15m
+JWT_REFRESH_EXPIRATION=7d
+
+BCRYPT_SALT_ROUNDS=12
+PORT=3000
+
+4️⃣ Prisma Setup
+npx prisma generate
+npx prisma migrate dev
+
+5️⃣ Run Development Server
+npm run start:dev
+
+6️⃣ API Documentation
+
+Access Swagger UI at:
+
+http://localhost:3000/api
+
+---
+
+🔗 Deployment Links
+
+Frontend (kum-crack)
+https://kummanagement.netlify.app/
+
+Backend API
+-
+
+Swagger Documentation
+-
+
+---
+
+🗂️ Backend Project Structure
+src/
+├── auth/                # Authentication & JWT
+├── users/               # User management
+├── villas/              # Villa management
+├── rooms/               # Room management
+├── bookings/            # Booking system
+├── expenses/            # Expense tracking
+├── tasks/               # Task management
+├── common/
+│   ├── decorators/      # Custom decorators
+│   ├── guards/          # Auth & role guards
+│   └── interceptors/
+├── prisma/              # Prisma schema & service
+├── config/              # Application configuration
+└── main.ts              # Application entry point
+
+---
+
+Preview
+
+---
+
+ERD
+<img width="450" height="275" alt="image" src="https://github.com/user-attachments/assets/ddc76c4f-1b78-414f-9803-6d06d960b512" />
+
+
+---
+
+🚀 Future Improvements
+
+File upload service (Cloudinary / AWS S3)
+
+Payment gateway integration
+
+Notification system (Email / WhatsApp)
+
+Advanced analytics and reporting dashboard
+
+Third-party OTA (Online Travel Agent) integration
