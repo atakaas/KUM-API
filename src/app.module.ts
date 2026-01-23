@@ -16,33 +16,36 @@ import { BookingsModule } from './bookings/bookings.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
+import jwtConfig from './config/jwt.config';
+
 @Module({
   imports: [
     /**
-     * Global environment configuration
+     * Global environment & config
      */
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+      load: [jwtConfig],
     }),
 
     /**
-     * Rate limiting (basic security)
+     * Rate limiting (basic API protection)
      */
     ThrottlerModule.forRoot([
       {
         ttl: 60_000, // 1 minute
-        limit: 100,  // 100 requests per minute
+        limit: 100,
       },
     ]),
 
     /**
-     * Database (Prisma)
+     * Database layer
      */
     PrismaModule,
 
     /**
-     * Feature modules
+     * Application features
      */
     AuthModule,
     UsersModule,

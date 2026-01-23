@@ -1,5 +1,3 @@
-// src/auth/strategies/jwt.strategy.ts
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -19,10 +17,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly prisma: PrismaService,
   ) {
     super({
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  ignoreExpiration: false,
-  secretOrKey: configService.getOrThrow<string>('JWT_SECRET'),
-});
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+
+      /**
+       * IMPORTANT:
+       * Use config namespace (`jwt.secret`)
+       * instead of raw env access
+       */
+      secretOrKey: configService.getOrThrow<string>('jwt.secret'),
+    });
   }
 
   async validate(payload: JwtPayload) {
@@ -41,7 +45,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('User not found');
     }
 
-    // user akan di-attach ke request.user
+    /**
+     * This object will be attached to request.user
+     */
     return user;
   }
 }
